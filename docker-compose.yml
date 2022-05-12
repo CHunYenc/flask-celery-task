@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    container_name: flask-postgresql
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata/data:/var/lib/postgresql/data
+      - ./pgdata/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: redis
+    container_name: flask-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis-data:/data
+
+#  scheduler:
+#    build: ./scheduler
+#    container_name: spc_scheduler
+#    expose:
+#      - 5000
+#    volumes:
+#      - ./scheduler:/app
+#    depends_on:
+#      - httpd
